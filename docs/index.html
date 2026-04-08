@@ -1,0 +1,777 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>CIS Hardening Documentation</title>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500&display=swap');
+
+    :root {
+      --bg: #f6f8fb;
+      --paper: #ffffff;
+      --ink: #0f2230;
+      --muted: #55687a;
+      --line: #d8e2ea;
+      --brand: #0f4d73;
+      --brand-2: #2f8ab9;
+      --ok: #1b7c4a;
+      --warn: #9f6300;
+      --risk: #b13b2d;
+      --chip: #eaf2f8;
+      --shadow: 0 12px 30px rgba(16, 43, 64, 0.1);
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      font-family: 'Space Grotesk', 'Segoe UI', sans-serif;
+      color: var(--ink);
+      background:
+        radial-gradient(circle at 100% 0%, #d9edf9 0, transparent 35%),
+        radial-gradient(circle at 0% 100%, #e9f7ee 0, transparent 42%),
+        var(--bg);
+      line-height: 1.6;
+    }
+
+    .layout {
+      max-width: 1160px;
+      margin: 0 auto;
+      padding: 20px;
+    }
+
+    .hero {
+      background: linear-gradient(135deg, #083149 0%, #11587e 55%, #2e8eba 100%);
+      color: #f6fcff;
+      border-radius: 18px;
+      padding: 30px;
+      box-shadow: 0 16px 34px rgba(8, 49, 73, 0.25);
+      position: relative;
+      overflow: hidden;
+      animation: fadeIn 0.55s ease-out;
+    }
+
+    .hero::after {
+      content: "";
+      position: absolute;
+      right: -80px;
+      top: -80px;
+      width: 220px;
+      height: 220px;
+      border-radius: 999px;
+      background: rgba(255, 255, 255, 0.16);
+      filter: blur(1px);
+    }
+
+    h1 {
+      margin: 0;
+      font-size: clamp(1.5rem, 3vw, 2.2rem);
+      line-height: 1.2;
+      letter-spacing: 0.2px;
+    }
+
+    .subtitle {
+      margin-top: 10px;
+      color: #d4edf9;
+      max-width: 850px;
+      font-size: 1rem;
+    }
+
+    .pill-row {
+      margin-top: 16px;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+    }
+
+    .pill {
+      background: rgba(255, 255, 255, 0.16);
+      border: 1px solid rgba(255, 255, 255, 0.34);
+      border-radius: 999px;
+      padding: 5px 11px;
+      font-size: 0.82rem;
+      font-weight: 600;
+      color: #f1fbff;
+      backdrop-filter: blur(2px);
+    }
+
+    .toc {
+      margin-top: 16px;
+      background: var(--paper);
+      border: 1px solid var(--line);
+      border-radius: 14px;
+      box-shadow: var(--shadow);
+      padding: 16px;
+      animation: fadeIn 0.65s ease-out;
+    }
+
+    .toc h2,
+    .section h2 {
+      margin: 0 0 10px;
+      font-size: 1.1rem;
+      color: #17384e;
+    }
+
+    .toc ul {
+      margin: 0;
+      padding-left: 16px;
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(210px, 1fr));
+      gap: 8px 22px;
+      font-size: 0.95rem;
+    }
+
+    .toc a {
+      color: #145a84;
+      text-decoration: none;
+      font-weight: 500;
+    }
+
+    .toc a:hover {
+      text-decoration: underline;
+    }
+
+    .grid-2 {
+      margin-top: 16px;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 16px;
+    }
+
+    .section {
+      background: var(--paper);
+      border: 1px solid var(--line);
+      border-radius: 14px;
+      box-shadow: var(--shadow);
+      padding: 18px;
+      animation: fadeIn 0.75s ease-out;
+    }
+
+    .section p {
+      margin: 0 0 10px;
+      color: #274154;
+    }
+
+    .mono {
+      font-family: 'IBM Plex Mono', Consolas, monospace;
+      background: #f0f5f9;
+      border: 1px solid #d5e2ec;
+      border-radius: 8px;
+      padding: 2px 6px;
+      font-size: 0.88rem;
+      color: #103147;
+    }
+
+    .module {
+      margin-top: 16px;
+      background: var(--paper);
+      border: 1px solid var(--line);
+      border-radius: 14px;
+      box-shadow: var(--shadow);
+      overflow: hidden;
+      animation: fadeIn 0.85s ease-out;
+    }
+
+    .module h3 {
+      margin: 0;
+      padding: 14px 16px;
+      background: #edf5fb;
+      border-bottom: 1px solid #d6e4ef;
+      color: #143a52;
+      font-size: 1rem;
+    }
+
+    .module .content {
+      padding: 14px 16px 16px;
+    }
+
+    .module .content p {
+      margin: 0 0 12px;
+      color: #2a465b;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 8px;
+      border: 1px solid #d7e4ee;
+      border-radius: 10px;
+      overflow: hidden;
+    }
+
+    th,
+    td {
+      text-align: left;
+      vertical-align: top;
+      padding: 11px 10px;
+      border-bottom: 1px solid #e5edf4;
+      font-size: 0.9rem;
+    }
+
+    th {
+      background: #f4f9fd;
+      color: #254a62;
+      font-size: 0.78rem;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+    }
+
+    td {
+      color: #1f3a4d;
+    }
+
+    .tag {
+      display: inline-block;
+      border-radius: 999px;
+      padding: 2px 8px;
+      font-size: 0.72rem;
+      font-weight: 700;
+      margin-right: 5px;
+      margin-bottom: 4px;
+      letter-spacing: 0.03em;
+    }
+
+    .tag-ok {
+      background: #e9f7f0;
+      color: var(--ok);
+      border: 1px solid #cdebd9;
+    }
+
+    .tag-warn {
+      background: #fff5e6;
+      color: var(--warn);
+      border: 1px solid #f1dfbf;
+    }
+
+    .tag-risk {
+      background: #fcecea;
+      color: var(--risk);
+      border: 1px solid #f1d2cd;
+    }
+
+    .notice {
+      margin-top: 16px;
+      border-left: 4px solid #d38b1f;
+      background: #fff8eb;
+      padding: 12px 14px;
+      border-radius: 9px;
+      color: #6e4a12;
+      font-size: 0.92rem;
+    }
+
+    .footer {
+      margin: 20px 0 8px;
+      color: #5b7081;
+      font-size: 0.85rem;
+      text-align: right;
+    }
+
+    @keyframes fadeIn {
+      from {
+        opacity: 0;
+        transform: translateY(8px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    @media (max-width: 960px) {
+      .grid-2 {
+        grid-template-columns: 1fr;
+      }
+
+      .layout {
+        padding: 12px;
+      }
+
+      .hero {
+        padding: 20px;
+      }
+
+      table {
+        display: block;
+        overflow-x: auto;
+      }
+    }
+  </style>
+</head>
+<body>
+  <main class="layout">
+    <header class="hero" id="top">
+      <h1>CIS Benchmark Hardening Toolkit Documentation</h1>
+      <p class="subtitle">
+        This page explains what this project hardens, why each control exists, and what vulnerabilities are reduced when the hardening scripts are applied.
+      </p>
+      <div class="pill-row">
+        <span class="pill">Target OS: Ubuntu 22.04 LTS</span>
+        <span class="pill">Benchmark Profile: CIS Level 1</span>
+        <span class="pill">Execution Model: Audit -> Harden -> Validate -> Report</span>
+      </div>
+    </header>
+
+    <section class="toc">
+      <h2>Documentation Index</h2>
+      <ul>
+        <li><a href="#cis-overview">CIS Benchmark Overview</a></li>
+        <li><a href="#hardening-scope">Hardening Scope in This Project</a></li>
+        <li><a href="#workflow">How the Scripts Work Together</a></li>
+        <li><a href="#auth">Authentication and Password Hardening</a></li>
+        <li><a href="#ssh">SSH Hardening</a></li>
+        <li><a href="#filesystem">Filesystem and Permission Hardening</a></li>
+        <li><a href="#kernel">Kernel and Network Hardening</a></li>
+        <li><a href="#logging">Logging and Auditing Hardening</a></li>
+        <li><a href="#firewall">Firewall and Network Exposure Control</a></li>
+        <li><a href="#services">Service Surface Reduction and MAC</a></li>
+        <li><a href="#validation">Compliance Validation and Reporting</a></li>
+      </ul>
+    </section>
+
+    <section class="grid-2">
+      <article class="section" id="cis-overview">
+        <h2>CIS Benchmark Overview</h2>
+        <p>
+          The Center for Internet Security (CIS) Benchmarks are security configuration standards for operating systems and applications.
+          This project aligns with <strong>CIS Ubuntu Linux 22.04 LTS Benchmark (Level 1)</strong> principles.
+        </p>
+        <p>
+          Level 1 controls focus on practical baseline security with low operational overhead. The goal is to reduce common attack paths while keeping systems usable.
+        </p>
+      </article>
+
+      <article class="section" id="hardening-scope">
+        <h2>Hardening Scope in This Project</h2>
+        <p>
+          The toolkit covers controls for identity, authentication, SSH, file permissions, kernel networking behavior,
+          firewall policy, service reduction, logging/auditing, AppArmor, and sudo controls.
+        </p>
+        <p>
+          It also performs pre-check and post-check scans to show measurable security posture improvement.
+        </p>
+      </article>
+    </section>
+
+    <section class="section" id="workflow">
+      <h2>How the Scripts Work Together</h2>
+      <p>
+        Main execution entrypoint is <span class="mono">main.sh</span>.
+      </p>
+      <p>
+        Pipeline: <span class="mono">audit/baseline_audit.sh</span> -> hardening modules in <span class="mono">harden/</span> ->
+        <span class="mono">audit/compliance_validator.sh</span> -> HTML/TXT report generation in <span class="mono">reports/</span>.
+      </p>
+      <p>
+        Most configuration files are backed up before modification, allowing rollback via <span class="mono">rollback.sh</span>.
+      </p>
+    </section>
+
+    <section class="module" id="auth">
+      <h3>Authentication and Password Hardening (harden_auth.sh)</h3>
+      <div class="content">
+        <p>
+          This module strengthens local authentication and account policy to limit brute-force success, credential reuse, and weak password abuse.
+        </p>
+        <table>
+          <thead>
+            <tr>
+              <th>Control</th>
+              <th>What is Implemented</th>
+              <th>Why It Matters</th>
+              <th>If Missing, Possible Vulnerability</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>Password complexity</td>
+              <td>Configures <span class="mono">/etc/security/pwquality.conf</span> with min length, class checks, repeat limits, dictionary checks.</td>
+              <td>Raises attacker cost for guessing and cracking password hashes.</td>
+              <td>Weak credentials become practical targets for brute-force and password-spraying attacks.</td>
+            </tr>
+            <tr>
+              <td>Password reuse prevention</td>
+              <td>Adds <span class="mono">remember=5</span> to PAM unix password policy.</td>
+              <td>Prevents immediate reuse of recently compromised passwords.</td>
+              <td>Users can rotate back to old leaked passwords after forced reset.</td>
+            </tr>
+            <tr>
+              <td>Failed login lockout</td>
+              <td>Uses <span class="mono">pam_faillock</span> with deny=5 and unlock timeout.</td>
+              <td>Slows credential stuffing and high-rate password guessing.</td>
+              <td>Unlimited retries increase online brute-force success probability.</td>
+            </tr>
+            <tr>
+              <td>Password aging</td>
+              <td>Sets PASS_MAX_DAYS, PASS_MIN_DAYS, PASS_WARN_AGE and applies to active users via <span class="mono">chage</span>.</td>
+              <td>Limits lifetime of stolen credentials and enforces periodic rotation behavior.</td>
+              <td>Long-lived passwords increase blast radius after compromise.</td>
+            </tr>
+            <tr>
+              <td>Restrict <span class="mono">su</span></td>
+              <td>Uses PAM wheel restriction in <span class="mono">/etc/pam.d/su</span>.</td>
+              <td>Limits privilege escalation path to approved operator groups.</td>
+              <td>Any local account may attempt privileged context switching.</td>
+            </tr>
+            <tr>
+              <td>Root account lock</td>
+              <td>Locks root password while preserving sudo-based administration.</td>
+              <td>Removes direct root password login path.</td>
+              <td>Direct root authentication can be brute-forced or reused from leaked secrets.</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <section class="module" id="ssh">
+      <h3>SSH Hardening (harden_ssh.sh)</h3>
+      <div class="content">
+        <p>
+          This module applies secure defaults for remote administration, including stronger cryptography and stricter authentication behavior.
+        </p>
+        <table>
+          <thead>
+            <tr>
+              <th>Control</th>
+              <th>What is Implemented</th>
+              <th>Why It Matters</th>
+              <th>If Missing, Possible Vulnerability</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>Root SSH disabled</td>
+              <td><span class="mono">PermitRootLogin no</span>, empty passwords disallowed, environment import restricted.</td>
+              <td>Forces identity-based least privilege and audited escalation via sudo.</td>
+              <td>Root-targeted password attacks and unmanaged privileged sessions.</td>
+            </tr>
+            <tr>
+              <td>Authentication throttling</td>
+              <td><span class="mono">MaxAuthTries 4</span>, <span class="mono">LoginGraceTime 60</span>.</td>
+              <td>Reduces brute-force attempt rate and incomplete-auth session abuse.</td>
+              <td>Higher trial volume enables faster password guessing.</td>
+            </tr>
+            <tr>
+              <td>Cryptographic policy</td>
+              <td>Explicit ciphers, MACs, and KEX algorithms are enforced.</td>
+              <td>Avoids weak/legacy algorithm negotiation and improves session integrity.</td>
+              <td>Downgrade opportunities and weaker confidentiality/integrity guarantees.</td>
+            </tr>
+            <tr>
+              <td>Session control</td>
+              <td><span class="mono">ClientAliveInterval 300</span>, <span class="mono">ClientAliveCountMax 0</span>, forwarding disabled.</td>
+              <td>Limits stale sessions and reduces pivot paths through tunnels/agents.</td>
+              <td>Zombie sessions and unintended lateral movement channels.</td>
+            </tr>
+            <tr>
+              <td>Legal warning banners</td>
+              <td>Configures <span class="mono">/etc/issue</span> and <span class="mono">/etc/issue.net</span>.</td>
+              <td>Supports monitored-access policy and legal notice requirements.</td>
+              <td>Weak legal posture for monitoring/enforcement in regulated environments.</td>
+            </tr>
+            <tr>
+              <td>File permission hardening</td>
+              <td>Restricts SSH host key and config file permissions; validates config before restart.</td>
+              <td>Prevents unauthorized key/config exposure and avoids lockout due to syntax errors.</td>
+              <td>Key leakage, config tampering, or failed service restarts.</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <section class="module" id="filesystem">
+      <h3>Filesystem and Permission Hardening (harden_filesystem.sh)</h3>
+      <div class="content">
+        <p>
+          This module secures critical OS files, audit surfaces, temporary storage behavior, and risky file permission states.
+        </p>
+        <table>
+          <thead>
+            <tr>
+              <th>Control</th>
+              <th>What is Implemented</th>
+              <th>Why It Matters</th>
+              <th>If Missing, Possible Vulnerability</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>Critical file permissions</td>
+              <td>Applies strict ownership/permissions to passwd/shadow/group/sudoers/grub and related files.</td>
+              <td>Protects credential stores and privileged configuration from unauthorized edits/read.</td>
+              <td>Privilege escalation through tampered auth or boot configuration files.</td>
+            </tr>
+            <tr>
+              <td>Cron and at access control</td>
+              <td>Secures cron directories and enforces <span class="mono">cron.allow</span>/<span class="mono">at.allow</span>.</td>
+              <td>Limits scheduled task creation to trusted administrators.</td>
+              <td>Persistence via unauthorized scheduled jobs.</td>
+            </tr>
+            <tr>
+              <td>SUID/SGID discovery</td>
+              <td>Generates audit report of privileged binaries.</td>
+              <td>Provides visibility into high-risk executables for manual review.</td>
+              <td>Unmonitored privileged binaries can be exploited for local escalation.</td>
+            </tr>
+            <tr>
+              <td>World writable and unowned file scans</td>
+              <td>Reports dangerous file states and unknown ownership artifacts.</td>
+              <td>Highlights tamper points and hygiene issues often abused post-compromise.</td>
+              <td>Unauthorized writes, hidden persistence, and forensic blind spots.</td>
+            </tr>
+            <tr>
+              <td>/tmp and /var/tmp hardening</td>
+              <td>Mounts <span class="mono">/tmp</span> as tmpfs (noexec,nodev,nosuid) where needed; links <span class="mono">/var/tmp</span> to <span class="mono">/tmp</span>.</td>
+              <td>Restricts execution and device/suid behavior in temporary paths.</td>
+              <td>Malware staging and local privilege escalation via writable temp locations.</td>
+            </tr>
+            <tr>
+              <td>Legacy trust file cleanup</td>
+              <td>Removes .rhosts, .netrc and /etc/hosts.equiv if present.</td>
+              <td>Eliminates insecure host-based trust artifacts.</td>
+              <td>Passwordless trust abuse and remote impersonation opportunities.</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <section class="module" id="kernel">
+      <h3>Kernel and Network Hardening (harden_kernel.sh)</h3>
+      <div class="content">
+        <p>
+          This module configures defensive kernel/network defaults through sysctl and disables risky modules and core dump vectors.
+        </p>
+        <table>
+          <thead>
+            <tr>
+              <th>Control</th>
+              <th>What is Implemented</th>
+              <th>Why It Matters</th>
+              <th>If Missing, Possible Vulnerability</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>Routing and redirect protections</td>
+              <td>Disables IP forwarding, send redirects, source routes, and ICMP redirects.</td>
+              <td>Reduces traffic manipulation and host misuse as a rogue router.</td>
+              <td>MITM-style route manipulation and trust boundary bypass.</td>
+            </tr>
+            <tr>
+              <td>Packet sanity defenses</td>
+              <td>Enables martian logging, SYN cookies, reverse path filtering, and bogus ICMP handling.</td>
+              <td>Improves resilience to spoofing and TCP resource exhaustion patterns.</td>
+              <td>Increased susceptibility to spoofing and SYN flood impact.</td>
+            </tr>
+            <tr>
+              <td>Kernel exploit friction</td>
+              <td>Enables ASLR, restricts dmesg and kernel pointers, hardens BPF, sets ptrace scope.</td>
+              <td>Reduces exploit reliability and information leakage useful to attackers.</td>
+              <td>Kernel memory disclosure and easier local exploit chaining.</td>
+            </tr>
+            <tr>
+              <td>Core dump restrictions</td>
+              <td>Disables suid dumps, configures limits, and disables systemd coredump storage.</td>
+              <td>Prevents sensitive process memory from being persisted to disk.</td>
+              <td>Credential/token leakage through dump artifacts.</td>
+            </tr>
+            <tr>
+              <td>Module blacklist</td>
+              <td>Blacklists uncommon filesystems and network modules (for example dccp/sctp/rds/tipc).</td>
+              <td>Shrinks kernel attack surface by disabling unused protocol paths.</td>
+              <td>Unused modules remain exploitable if vulnerabilities are discovered.</td>
+            </tr>
+            <tr>
+              <td>IPv6 boot-level disable</td>
+              <td>Applies <span class="mono">ipv6.disable=1</span> in GRUB and sysctl disable flags.</td>
+              <td>Avoids unmanaged dual-stack exposure in IPv4-only environments.</td>
+              <td>Hidden IPv6 paths bypassing expected IPv4 firewall policy.</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <section class="module" id="logging">
+      <h3>Logging and Auditing Hardening (harden_logging.sh)</h3>
+      <div class="content">
+        <p>
+          This module improves observability, accountability, and forensic readiness with rsyslog, auditd, journald, and log rotation controls.
+        </p>
+        <table>
+          <thead>
+            <tr>
+              <th>Control</th>
+              <th>What is Implemented</th>
+              <th>Why It Matters</th>
+              <th>If Missing, Possible Vulnerability</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>Centralized logging baseline</td>
+              <td>Installs/enables rsyslog and adds explicit auth/kernel/cron logging policy.</td>
+              <td>Ensures high-value events are retained for detection and investigation.</td>
+              <td>Attack activity may go unlogged or remain hard to correlate.</td>
+            </tr>
+            <tr>
+              <td>Audit rules for identity and privilege events</td>
+              <td>Defines auditd rules for passwd/sudo/ssh/pam/module loading and failed access attempts.</td>
+              <td>Creates tamper-evident trail for administrative and security-critical actions.</td>
+              <td>Limited forensic ability after privilege escalation or policy tampering.</td>
+            </tr>
+            <tr>
+              <td>Immutable audit configuration</td>
+              <td>Uses terminal rule <span class="mono">-e 2</span> in audit policy.</td>
+              <td>Prevents runtime audit rule modifications by attackers.</td>
+              <td>Adversaries can disable or alter monitoring to hide activity.</td>
+            </tr>
+            <tr>
+              <td>journald persistence</td>
+              <td>Configures persistent storage, compression, retention windows, and syslog forwarding.</td>
+              <td>Preserves boot-to-boot history and supports long-term investigations.</td>
+              <td>Volatile-only logs vanish after reboot and reduce traceability.</td>
+            </tr>
+            <tr>
+              <td>Log file permission controls</td>
+              <td>Sets restrictive mode/ownership for key logs and defines logrotate policy.</td>
+              <td>Prevents unauthorized read/write and controls storage lifecycle.</td>
+              <td>Log tampering, data leakage, or disk exhaustion from uncontrolled growth.</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <section class="module" id="firewall">
+      <h3>Firewall Hardening (harden_firewall.sh)</h3>
+      <div class="content">
+        <p>
+          This module enforces default-deny inbound policy using UFW while preserving remote operability by explicitly allowing SSH.
+        </p>
+        <table>
+          <thead>
+            <tr>
+              <th>Control</th>
+              <th>What is Implemented</th>
+              <th>Why It Matters</th>
+              <th>If Missing, Possible Vulnerability</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>Default deny inbound</td>
+              <td>Resets UFW and applies deny incoming / deny forward / allow outgoing.</td>
+              <td>Blocks unsolicited access by default.</td>
+              <td>Unnecessary listening services become remotely reachable.</td>
+            </tr>
+            <tr>
+              <td>SSH safelist</td>
+              <td>Allows SSH before enabling firewall.</td>
+              <td>Prevents accidental administrative lockout while staying secure.</td>
+              <td>Operational lockout or unsafe temporary broad rules.</td>
+            </tr>
+            <tr>
+              <td>Loopback policy</td>
+              <td>Explicit loopback allow and anti-spoof deny rules.</td>
+              <td>Protects local-only trust assumptions from spoofed packets.</td>
+              <td>Loopback spoofing and policy bypass scenarios.</td>
+            </tr>
+            <tr>
+              <td>Firewall logging</td>
+              <td>Enables medium-level UFW logging.</td>
+              <td>Improves visibility of denied/allowed flows during incidents.</td>
+              <td>Network attacks become harder to detect and triage.</td>
+            </tr>
+            <tr>
+              <td>TCP wrappers baseline</td>
+              <td>Configures hosts.deny default deny and allows sshd in hosts.allow.</td>
+              <td>Adds host-based service access filtering layer.</td>
+              <td>No additional host ACL gate where wrappers are applicable.</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <section class="module" id="services">
+      <h3>Service Surface Reduction and MAC/Sudo Hardening (harden_services.sh)</h3>
+      <div class="content">
+        <p>
+          This module removes nonessential network-facing software, disables risky daemons, enforces AppArmor, and tightens sudo behavior.
+        </p>
+        <table>
+          <thead>
+            <tr>
+              <th>Control</th>
+              <th>What is Implemented</th>
+              <th>Why It Matters</th>
+              <th>If Missing, Possible Vulnerability</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>Legacy/insecure package removal</td>
+              <td>Purges services such as telnet, ftp, rsh, xinetd, and others where installed.</td>
+              <td>Removes weak or unnecessary remote attack entry points.</td>
+              <td>Legacy plaintext protocols and vulnerable daemons remain exposed.</td>
+            </tr>
+            <tr>
+              <td>Systemd service reduction</td>
+              <td>Stops/disables optional services (for example rpcbind, avahi, nginx/apache, snmpd) when enabled.</td>
+              <td>Enforces least functionality and smaller network footprint.</td>
+              <td>Broader attack surface and more patch burden.</td>
+            </tr>
+            <tr>
+              <td>AppArmor enforcement</td>
+              <td>Installs/enables AppArmor and enforces profiles where available.</td>
+              <td>Adds mandatory access control containment for compromised processes.</td>
+              <td>Process compromise can lead to wider filesystem/process access.</td>
+            </tr>
+            <tr>
+              <td>Sudo accountability controls</td>
+              <td>Enables sudo logfile, input/output logging, and use_pty; validates sudoers syntax.</td>
+              <td>Improves auditability and reduces blind privileged execution.</td>
+              <td>Harder attribution of privileged abuse or command misuse.</td>
+            </tr>
+            <tr>
+              <td>Bootloader security reminder</td>
+              <td>Checks for GRUB password presence and warns if absent.</td>
+              <td>Encourages protection against offline single-user boot tampering.</td>
+              <td>Physical attackers can alter boot args and bypass controls.</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <section class="module" id="validation">
+      <h3>Compliance Validation and Reporting (audit/compliance_validator.sh)</h3>
+      <div class="content">
+        <p>
+          The validator re-checks hardening outcomes and computes a compliance score from PASS / FAIL / WARN checks. Reports are generated in text and HTML format for evidence and review.
+        </p>
+        <p>
+          This supports open-source contributors by making hardening behavior measurable and easy to verify across environments.
+        </p>
+        <div>
+          <span class="tag tag-ok">PASS: control satisfied</span>
+          <span class="tag tag-warn">WARN: partially met or contextual gap</span>
+          <span class="tag tag-risk">FAIL: expected control missing</span>
+        </div>
+        <div class="notice">
+          Important: Some controls are environment-dependent. For example, disabling IPv6 or removing mail services may not fit every deployment.
+          Review before applying to production and adjust modules for your operational requirements.
+        </div>
+      </div>
+    </section>
+
+    <p class="footer">Documentation generated for this repository | Last updated: April 8, 2026</p>
+  </main>
+</body>
+</html>
