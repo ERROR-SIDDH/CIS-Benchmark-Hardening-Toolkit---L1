@@ -155,4 +155,4 @@ sudo bash rollback.sh
 ## Disclaimer
 
 This project provides automated hardening guidance and controls, not a compliance certification.
-Validate final settings against your organization policy and the official CIS benchmark documentation.
+Validate final settings against your organization policy and the official CIS benchmark documentation
