@@ -1,0 +1,49 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 520 100" width="520" height="100">
+  <defs>
+    <linearGradient id="logoShieldGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#083149"/>
+      <stop offset="50%" style="stop-color:#11587e"/>
+      <stop offset="100%" style="stop-color:#2e8eba"/>
+    </linearGradient>
+    <linearGradient id="logoCheckGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#4dd8a5"/>
+      <stop offset="100%" style="stop-color:#1bc47d"/>
+    </linearGradient>
+    <linearGradient id="textGrad" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" style="stop-color:#083149"/>
+      <stop offset="100%" style="stop-color:#11587e"/>
+    </linearGradient>
+    <filter id="logoGlow">
+      <feGaussianBlur stdDeviation="1" result="blur"/>
+      <feMerge>
+        <feMergeNode in="blur"/>
+        <feMergeNode in="SourceGraphic"/>
+      </feMerge>
+    </filter>
+    <filter id="shieldShadow">
+      <feDropShadow dx="1" dy="2" stdDeviation="3" flood-color="#083149" flood-opacity="0.25"/>
+    </filter>
+  </defs>
+
+  <!-- Shield icon -->
+  <g transform="translate(10, 6)" filter="url(#shieldShadow)">
+    <!-- Shield body -->
+    <path d="M40 4 L70 16 L70 36 C70 54 56 66 40 70 C24 66 10 54 10 36 L10 16 Z" 
+          fill="url(#logoShieldGrad)" stroke="none"/>
+    <!-- Inner shield subtle border -->
+    <path d="M40 9 L66 19.5 L66 36 C66 51.5 53.5 62 40 65.5 C26.5 62 14 51.5 14 36 L14 19.5 Z" 
+          fill="none" stroke="rgba(255,255,255,0.18)" stroke-width="0.8"/>
+    <!-- Checkmark -->
+    <path d="M27 38 L35 46 L53 26" 
+          fill="none" stroke="url(#logoCheckGrad)" stroke-width="5" stroke-linecap="round" stroke-linejoin="round" filter="url(#logoGlow)"/>
+  </g>
+
+  <!-- Text: CIS Hardening Toolkit -->
+  <text x="100" y="42" font-family="'Space Grotesk', 'Segoe UI', sans-serif" font-weight="700" font-size="26" fill="url(#textGrad)" letter-spacing="0.5">
+    CIS Hardening Toolkit
+  </text>
+  <!-- Subtitle -->
+  <text x="100" y="66" font-family="'Space Grotesk', 'Segoe UI', sans-serif" font-weight="400" font-size="13" fill="#55687a" letter-spacing="1">
+    Benchmark Security · Level 1 · Ubuntu 22.04
+  </text>
+</svg>

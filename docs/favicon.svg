@@ -1,0 +1,60 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" width="512" height="512">
+  <defs>
+    <!-- Main shield gradient - deep navy to vibrant teal -->
+    <linearGradient id="shieldMain" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#051e30"/>
+      <stop offset="40%" stop-color="#0a3a5c"/>
+      <stop offset="100%" stop-color="#1a7aaa"/>
+    </linearGradient>
+    <!-- Lighter inner shield -->
+    <linearGradient id="shieldInner" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#0d4a6e"/>
+      <stop offset="100%" stop-color="#2996c8"/>
+    </linearGradient>
+    <!-- Green checkmark gradient -->
+    <linearGradient id="checkGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#34edb3"/>
+      <stop offset="100%" stop-color="#0fbf7f"/>
+    </linearGradient>
+    <!-- Subtle top-left light reflection -->
+    <radialGradient id="sheen" cx="30%" cy="25%" r="50%">
+      <stop offset="0%" stop-color="rgba(255,255,255,0.18)"/>
+      <stop offset="100%" stop-color="rgba(255,255,255,0)"/>
+    </radialGradient>
+    <!-- Drop shadow for depth -->
+    <filter id="shadow" x="-10%" y="-10%" width="130%" height="140%">
+      <feDropShadow dx="0" dy="8" stdDeviation="18" flood-color="#031824" flood-opacity="0.45"/>
+    </filter>
+    <!-- Glow behind the checkmark -->
+    <filter id="checkGlow" x="-30%" y="-30%" width="160%" height="160%">
+      <feGaussianBlur in="SourceGraphic" stdDeviation="10" result="blur"/>
+      <feMerge>
+        <feMergeNode in="blur"/>
+        <feMergeNode in="SourceGraphic"/>
+      </feMerge>
+    </filter>
+  </defs>
+
+  <!-- Outer shield shape -->
+  <path d="M256 28 L440 100 C440 100 448 260 440 310 C424 390 348 456 256 488 C164 456 88 390 72 310 C64 260 72 100 72 100 Z"
+        fill="url(#shieldMain)" filter="url(#shadow)"/>
+
+  <!-- Inner shield inset -->
+  <path d="M256 62 L416 124 C416 124 422 258 416 300 C402 370 336 428 256 456 C176 428 110 370 96 300 C90 258 96 124 96 124 Z"
+        fill="url(#shieldInner)"/>
+
+  <!-- Shine / light reflection overlay -->
+  <path d="M256 62 L416 124 C416 124 422 258 416 300 C402 370 336 428 256 456 C176 428 110 370 96 300 C90 258 96 124 96 124 Z"
+        fill="url(#sheen)"/>
+
+  <!-- Subtle keyhole / lock circle at top-center -->
+  <circle cx="256" cy="210" r="52" fill="none" stroke="rgba(255,255,255,0.12)" stroke-width="4"/>
+  <circle cx="256" cy="210" r="22" fill="rgba(255,255,255,0.08)"/>
+
+  <!-- Checkmark - bold, clean, glowing -->
+  <path d="M175 258 L230 318 L345 192"
+        fill="none" stroke="url(#checkGrad)" stroke-width="36" stroke-linecap="round" stroke-linejoin="round" filter="url(#checkGlow)"/>
+
+  <!-- Top accent line -->
+  <path d="M180 108 L332 108" stroke="rgba(255,255,255,0.1)" stroke-width="2" stroke-linecap="round"/>
+</svg>
