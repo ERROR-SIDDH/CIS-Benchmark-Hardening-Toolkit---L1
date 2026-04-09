@@ -512,6 +512,11 @@ cat >> "$HTML_REPORT" << HTMLEOF
 </html>
 HTMLEOF
 
+chmod 644 "$HTML_REPORT"
+if [[ -n "${SUDO_USER:-}" ]]; then
+    chown "$SUDO_USER:$SUDO_USER" "$HTML_REPORT"
+fi
+
 echo ""
 log_pass "Text report: $TXT_REPORT"
 log_pass "HTML report: $HTML_REPORT"
