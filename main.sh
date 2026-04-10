@@ -41,7 +41,7 @@ echo -e "${GREEN}  CIS Benchmark Level 1 Hardening Tool |by SIDHARTH M, Aksith M
 echo -e "${CYAN}  ================================================================${NC}"
 echo ""
 
-log_info "Starting CIS Hardening Tool"
+log_info "Starting CIS  Hardening Tool"
 log_info "Log file: $LOG_FILE"
 exec > >(tee -a "$LOG_FILE") 2>&1
 
