@@ -37,7 +37,7 @@ cat << 'EOF'
   ╚═════╝╚═╝╚══════╝    ╚═╝  ╚═╝╚═╝  ╚═╝╚═╝  ╚═╝╚═════╝ ╚══════╝╚═╝  ╚═══╝╚═╝╚═╝  ╚═══╝ ╚═════╝
 EOF
 echo -e "${NC}"
-echo -e "${GREEN}  CIS Benchmark Level 1 Hardening Tool | Ubuntu 22.04 LTS${NC}"
+echo -e "${GREEN}  CIS Benchmark Level 1 Hardening Tool |by SIDHARTH M, Aksith Mahesh, Chinmaya Bhavana| Ubuntu 22.04 LTS${NC}"
 echo -e "${CYAN}  ================================================================${NC}"
 echo ""
 
