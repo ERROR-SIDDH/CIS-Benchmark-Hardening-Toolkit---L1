@@ -5,7 +5,7 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <link rel="icon" type="image/svg+xml" href="favicon.svg" />
-  <title>CIS Hardening Documentation</title>
+  <title>CIS Hardening Documentation </title>
   <style>
     @import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500&display=swap');
 
@@ -1008,7 +1008,7 @@
       <div class="content">
         <p>
           This module enforces a <strong>server-grade, defence-in-depth firewall posture</strong> using UFW enhanced
-          with low-level <code>iptables</code> rules injected into <code>/etc/ufw/before.rules</code>.  The policy
+          with low-level <code>iptables</code> rules injected into <code>/etc/ufw/before.rules</code>. The policy
           spans default-deny inbound traffic, SSH brute-force rate-limiting, anti-spoofing, scan protection, ICMP
           hardening, an optional strict-outbound allowlist, UFW high-verbosity logging and kernel/sysctl alignment.
           All rules are idempotent (sentinel comment guard) and backed up via the project&rsquo;s roll-back
@@ -1032,13 +1032,16 @@
             </tr>
             <tr>
               <td>SSH rate-limiting (brute-force protection)</td>
-              <td><code>ufw limit ssh</code> &mdash; allows SSH but throttles repeated connection attempts (6 per 30 s).</td>
+              <td><code>ufw limit ssh</code> &mdash; allows SSH but throttles repeated connection attempts (6 per 30 s).
+              </td>
               <td>Mitigates credential-stuffing and brute-force attacks against the SSH daemon.</td>
               <td>Attacker can attempt unlimited password guesses without penalty.</td>
             </tr>
             <tr>
               <td>Anti-spoofing (RFC 1918 / bogon drops)</td>
-              <td>Drops packets arriving on public interfaces claiming RFC 1918 source addresses; injected into <code>before.rules</code>.</td>
+              <td>Drops packets arriving on public interfaces claiming RFC 1918 source addresses; injected into
+                <code>before.rules</code>.
+              </td>
               <td>Prevents source-IP spoofing used in reflective amplification and session-hijack attacks.</td>
               <td>Spoofed internal-source packets accepted, bypassing access controls.</td>
             </tr>
@@ -1050,19 +1053,22 @@
             </tr>
             <tr>
               <td>Scan protection (NULL, XMAS, FIN, non-SYN)</td>
-              <td>Drops NULL-flag, XMAS-flag, FIN-flag and non-SYN-initiating TCP packets in <code>before.rules</code>.</td>
+              <td>Drops NULL-flag, XMAS-flag, FIN-flag and non-SYN-initiating TCP packets in <code>before.rules</code>.
+              </td>
               <td>Eliminates the most common OS-fingerprinting and port-scan probes.</td>
               <td>Attackers enumerate open ports and OS version silently, enabling targeted exploitation.</td>
             </tr>
             <tr>
               <td>ICMP rate-limiting &amp; type restriction</td>
-              <td>Allows <code>echo-request</code> at 1/s (burst 5) via <code>hashlimit</code>; drops all other ICMP types.</td>
+              <td>Allows <code>echo-request</code> at 1/s (burst 5) via <code>hashlimit</code>; drops all other ICMP
+                types.</td>
               <td>Permits network reachability checks while blocking ICMP tunnels and flood amplification.</td>
               <td>Unrestricted ICMP enables covert data exfiltration via ICMP tunnels and ICMP flood DoS.</td>
             </tr>
             <tr>
               <td>Optional strict outbound (<code>STRICT_OUTBOUND</code>)</td>
-              <td>When enabled, only allows outbound DNS (53), HTTP (80), HTTPS (443), NTP (123), SMTP (25/587), SSH (22).</td>
+              <td>When enabled, only allows outbound DNS (53), HTTP (80), HTTPS (443), NTP (123), SMTP (25/587), SSH
+                (22).</td>
               <td>Restricts post-compromise call-home, lateral movement and data exfiltration vectors.</td>
               <td>Compromised processes can freely beacon to attacker infrastructure on arbitrary ports.</td>
             </tr>
@@ -1074,7 +1080,8 @@
             </tr>
             <tr>
               <td>UFW/sysctl alignment</td>
-              <td>Patches <code>/etc/ufw/sysctl.conf</code> to prevent UFW from re-enabling IP forwarding or source-routing.</td>
+              <td>Patches <code>/etc/ufw/sysctl.conf</code> to prevent UFW from re-enabling IP forwarding or
+                source-routing.</td>
               <td>Ensures kernel networking parameters remain consistent with the hardened policy across reboots.</td>
               <td>UFW restores permissive kernel settings on restart, silently undoing OS-level hardening.</td>
             </tr>
@@ -1382,53 +1389,134 @@
   <!-- ===== LATEST-CHANGES POPUP MODAL ===== -->
   <style>
     #cis-popup-overlay {
-      position: fixed; inset: 0; background: rgba(0,0,0,0.55);
-      display: flex; align-items: center; justify-content: center;
-      z-index: 9999; opacity: 0; transition: opacity 0.35s ease; pointer-events: none;
+      position: fixed;
+      inset: 0;
+      background: rgba(0, 0, 0, 0.55);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      z-index: 9999;
+      opacity: 0;
+      transition: opacity 0.35s ease;
+      pointer-events: none;
     }
-    #cis-popup-overlay.visible { opacity: 1; pointer-events: auto; }
+
+    #cis-popup-overlay.visible {
+      opacity: 1;
+      pointer-events: auto;
+    }
+
     #cis-popup {
-      background: #1a1e2e; color: #d0d8f0; border: 1px solid #3a4060;
-      border-radius: 10px; width: min(680px, 92vw); max-height: 85vh;
-      overflow-y: auto; padding: 32px 36px; position: relative;
-      box-shadow: 0 8px 40px rgba(0,0,0,0.7);
-      transform: translateY(20px); transition: transform 0.35s ease;
+      background: #1a1e2e;
+      color: #d0d8f0;
+      border: 1px solid #3a4060;
+      border-radius: 10px;
+      width: min(680px, 92vw);
+      max-height: 85vh;
+      overflow-y: auto;
+      padding: 32px 36px;
+      position: relative;
+      box-shadow: 0 8px 40px rgba(0, 0, 0, 0.7);
+      transform: translateY(20px);
+      transition: transform 0.35s ease;
     }
-    #cis-popup-overlay.visible #cis-popup { transform: translateY(0); }
+
+    #cis-popup-overlay.visible #cis-popup {
+      transform: translateY(0);
+    }
+
     #cis-popup .popup-badge {
       display: inline-block;
       background: linear-gradient(135deg, #e63946, #c1121f);
-      color: #fff; font-size: 0.68rem; font-weight: 700;
-      letter-spacing: 0.08em; text-transform: uppercase;
-      padding: 3px 10px; border-radius: 20px; margin-bottom: 14px;
+      color: #fff;
+      font-size: 0.68rem;
+      font-weight: 700;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      padding: 3px 10px;
+      border-radius: 20px;
+      margin-bottom: 14px;
     }
-    #cis-popup h2 { margin: 0 0 6px; font-size: 1.45rem; color: #a8d8f0; }
-    #cis-popup .popup-subtitle { font-size: 0.85rem; color: #8090b0; margin-bottom: 20px; }
-    #cis-popup ul { margin: 0 0 24px; padding-left: 20px; line-height: 1.8; }
-    #cis-popup ul li strong { color: #e2a84b; }
+
+    #cis-popup h2 {
+      margin: 0 0 6px;
+      font-size: 1.45rem;
+      color: #a8d8f0;
+    }
+
+    #cis-popup .popup-subtitle {
+      font-size: 0.85rem;
+      color: #8090b0;
+      margin-bottom: 20px;
+    }
+
+    #cis-popup ul {
+      margin: 0 0 24px;
+      padding-left: 20px;
+      line-height: 1.8;
+    }
+
+    #cis-popup ul li strong {
+      color: #e2a84b;
+    }
+
     #cis-popup code {
-      background: #0f1220; border-radius: 4px; padding: 1px 5px;
-      font-size: 0.85em; color: #80d0a0;
+      background: #0f1220;
+      border-radius: 4px;
+      padding: 1px 5px;
+      font-size: 0.85em;
+      color: #80d0a0;
     }
+
     #cis-popup-close {
-      position: absolute; top: 14px; right: 18px; background: none; border: none;
-      color: #8090b0; font-size: 1.5rem; cursor: pointer; line-height: 1; transition: color 0.2s;
+      position: absolute;
+      top: 14px;
+      right: 18px;
+      background: none;
+      border: none;
+      color: #8090b0;
+      font-size: 1.5rem;
+      cursor: pointer;
+      line-height: 1;
+      transition: color 0.2s;
     }
-    #cis-popup-close:hover { color: #e63946; }
+
+    #cis-popup-close:hover {
+      color: #e63946;
+    }
+
     #cis-popup-dismiss {
       display: inline-block;
       background: linear-gradient(135deg, #3a6fd8, #2557b8);
-      color: #fff; border: none; border-radius: 6px;
-      padding: 10px 26px; font-size: 0.9rem; font-weight: 600;
-      cursor: pointer; transition: background 0.2s, transform 0.15s;
+      color: #fff;
+      border: none;
+      border-radius: 6px;
+      padding: 10px 26px;
+      font-size: 0.9rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: background 0.2s, transform 0.15s;
     }
+
     #cis-popup-dismiss:hover {
-      background: linear-gradient(135deg, #4a7fe8, #3567c8); transform: translateY(-1px);
+      background: linear-gradient(135deg, #4a7fe8, #3567c8);
+      transform: translateY(-1px);
     }
-    #cis-popup-footer { display: flex; align-items: center; gap: 16px; flex-wrap: wrap; }
+
+    #cis-popup-footer {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      flex-wrap: wrap;
+    }
+
     #cis-popup-footer label {
-      font-size: 0.82rem; color: #8090b0; cursor: pointer;
-      display: flex; align-items: center; gap: 6px;
+      font-size: 0.82rem;
+      color: #8090b0;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 6px;
     }
   </style>
 
@@ -1442,15 +1530,22 @@
         See the <a href="#firewall" style="color:#6ab4e8;">Firewall Hardening section</a> for full details.
       </p>
       <ul>
-        <li><strong>SSH brute-force rate-limiting</strong> &mdash; <code>ufw limit ssh</code> throttles repeated attempts (6/30 s).</li>
+        <li><strong>SSH brute-force rate-limiting</strong> &mdash; <code>ufw limit ssh</code> throttles repeated
+          attempts (6/30 s).</li>
         <li><strong>Anti-spoofing</strong> &mdash; RFC 1918 / bogon drops in <code>/etc/ufw/before.rules</code>.</li>
-        <li><strong>INVALID packet drops</strong> &mdash; conntrack <code>INVALID</code> state discarded before evaluation.</li>
+        <li><strong>INVALID packet drops</strong> &mdash; conntrack <code>INVALID</code> state discarded before
+          evaluation.</li>
         <li><strong>Scan protection</strong> &mdash; NULL, XMAS, FIN and non-SYN TCP probes silently dropped.</li>
-        <li><strong>ICMP hardening</strong> &mdash; echo-request rate-limited (1/s, burst 5); all other types dropped.</li>
-        <li><strong>Optional strict outbound</strong> &mdash; <code>STRICT_OUTBOUND=true</code> allows only essential egress ports.</li>
+        <li><strong>ICMP hardening</strong> &mdash; echo-request rate-limited (1/s, burst 5); all other types dropped.
+        </li>
+        <li><strong>Optional strict outbound</strong> &mdash; <code>STRICT_OUTBOUND=true</code> allows only essential
+          egress ports.</li>
         <li><strong>UFW high-verbosity logging</strong> &mdash; full audit trail of all firewall decisions.</li>
-        <li><strong>Sysctl alignment</strong> &mdash; <code>/etc/ufw/sysctl.conf</code> patched to keep forwarding/source-routing disabled.</li>
-        <li><strong>10+ new compliance checks</strong> &mdash; IDs 3.5.1.4, 3.5.2.1&ndash;3.5.2.7, 3.5.3.1 added to <code>compliance_validator.sh</code>.</li>
+        <li><strong>Sysctl alignment</strong> &mdash; <code>/etc/ufw/sysctl.conf</code> patched to keep
+          forwarding/source-routing disabled.</li>
+        <li><strong>10+ new compliance checks</strong> &mdash; IDs 3.5.1.4, 3.5.2.1&ndash;3.5.2.7, 3.5.3.1 added to
+          <code>compliance_validator.sh</code>.
+        </li>
       </ul>
       <div id="cis-popup-footer">
         <button id="cis-popup-dismiss">Got it &#10003;</button>
