@@ -116,9 +116,25 @@ check "3.x"   "dmesg restricted"                    "[ \$(sysctl -n kernel.dmesg
 
 # ---- Firewall ---------------------------------------------------------------
 section "3.5 Firewall"
-check "3.5.1.1" "UFW installed"            "command -v ufw"
-check "3.5.1.2" "UFW active"              "ufw status | grep -q 'Status: active'"
-check "3.5.1.3" "UFW default deny inbound" "ufw status verbose | grep -q 'Default: deny (incoming)'"
+check "3.5.1.1" "UFW installed"                       "command -v ufw"
+check "3.5.1.2" "UFW active"                          "ufw status | grep -q 'Status: active'"
+check "3.5.1.3" "UFW default deny inbound"             "ufw status verbose | grep -q 'Default: deny (incoming)'"
+check "3.5.1.4" "UFW default deny forward"             "ufw status verbose | grep -q 'Default: deny (forward)'"
+check "3.5.2.1" "SSH is rate-limited (not bare ALLOW)" "ufw status | grep -iE '22.*(LIMIT|Limit)'"
+check "3.5.2.2" "INVALID packets dropped (before.rules)" \
+    "grep -q 'ctstate INVALID' /etc/ufw/before.rules"
+check "3.5.2.3" "NULL scan packets dropped (before.rules)" \
+    "grep -q 'tcp-flags ALL NONE' /etc/ufw/before.rules"
+check "3.5.2.4" "XMAS scan packets dropped (before.rules)" \
+    "grep -q 'tcp-flags ALL ALL' /etc/ufw/before.rules"
+check "3.5.2.5" "New-TCP-not-SYN drop (before.rules)" \
+    "grep -q '! --syn' /etc/ufw/before.rules"
+check "3.5.2.6" "Anti-spoofing rules present (before.rules)" \
+    "grep -q '169.254.0.0' /etc/ufw/before.rules"
+check "3.5.2.7" "ICMP rate-limiting configured (before.rules)" \
+    "grep -q 'limit --limit 1/second' /etc/ufw/before.rules"
+check "3.5.3.1" "UFW logging level is HIGH" \
+    "ufw status verbose 2>/dev/null | grep -qi 'logging: on (high)'"
 
 # ---- Logging & Auditing -----------------------------------------------------
 section "4.x Logging & Auditing"
