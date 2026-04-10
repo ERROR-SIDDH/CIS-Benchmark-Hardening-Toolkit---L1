@@ -22,7 +22,7 @@ This toolkit helps you harden Ubuntu hosts against the CIS Benchmark (Level 1) u
 
 It is designed for security labs, VM baselines, and infrastructure teams that need repeatable hardening with clear visibility.
 
-## Feature Highlights
+## Feature Highlights 
 
 - Full hardening pipeline orchestrated by one entry point
 - Modular security scripts for auth, SSH, kernel, firewall, logging, services, and filesystem
