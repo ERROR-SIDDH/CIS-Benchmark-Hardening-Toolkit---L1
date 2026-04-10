@@ -10,7 +10,7 @@
 	<img alt="Language" src="https://img.shields.io/badge/shell-bash-A86A00?style=for-the-badge">
 </p>
 
-## Why This Project
+## Why This Project 
 
 This toolkit helps you harden Ubuntu hosts against the CIS Benchmark (Level 1) using a clear, modular workflow:
 
