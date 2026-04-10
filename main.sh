@@ -13,7 +13,7 @@ LOG_FILE="$REPORT_DIR/hardening_$(date +%Y%m%d_%H%M%S).log"
 source "$SCRIPT_DIR/utils/colors.sh"
 source "$SCRIPT_DIR/utils/helpers.sh"
 
-# ---- Preflight checks -------------------------------------------------------
+# ---- Preflight checks -----------------------------------------------------------
 if [[ $EUID -ne 0 ]]; then
     echo -e "${RED}[ERROR]${NC} This script must be run as root. Use: sudo bash main.sh"
     exit 1
